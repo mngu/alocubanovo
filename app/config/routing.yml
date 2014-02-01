@@ -1,0 +1,3 @@
+cbnv_main:
+    resource: "@CbnvMainBundle/Resources/config/routing.yml"
+    prefix:   /

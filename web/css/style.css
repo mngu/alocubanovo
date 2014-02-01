@@ -1,0 +1,39 @@
+@font-face {
+  font-family: 'gooddogregular';
+  src: url("../fonts/gooddog-webfont.eot");
+  src: url("../fonts/gooddog-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/gooddog-webfont.woff") format("woff"), url("../fonts/gooddog-webfont.ttf") format("truetype"), url("../fonts/gooddog-webfont.svg#gooddogregular") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'existencelight';
+  src: url("../fonts/existence-light-webfont.eot");
+  src: url("../fonts/existence-light-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/existence-light-webfont.woff") format("woff"), url("../fonts/existence-light-webfont.ttf") format("truetype"), url("../fonts/existence-light-webfont.svg#existencelight") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* COLORS */
+#header {
+  background-color: #1d1d1d;
+}
+#header h1 {
+  font-family: gooddogregular;
+  color: red;
+}
+
+#footer {
+  background-color: #1d1d1d;
+  color: #ededed;
+  padding: 20px 0;
+}
+
+#content .container {
+  min-height: 500px;
+  padding-bottom: 40px;
+}
+#content .container h2 {
+  font-family: existencelight;
+  color: red;
+}

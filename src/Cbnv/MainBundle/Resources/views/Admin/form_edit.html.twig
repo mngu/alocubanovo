@@ -1,0 +1,14 @@
+{% extends '::layout.html.twig' %}
+
+{% block body -%}
+    <h1>{{ title }}</h1>
+    <a href="{{ return_path }}">
+        Back to the list
+    </a>
+
+    {{ form_start(edit_form, {'attr': {'class': 'form-horizontal'}}) }}
+    {{ form_errors(edit_form) }}
+    {% for field in edit_form %}
+        {% include 'CbnvMainBundle:Admin:form_row.html.twig' with {'field': field} %}
+    {% endfor %}
+{% endblock %}

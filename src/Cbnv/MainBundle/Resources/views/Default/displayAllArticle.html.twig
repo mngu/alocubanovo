@@ -1,0 +1,12 @@
+{% extends "::layout.html.twig" %}
+{% block title %}
+  {{ parent() }} - Accueil
+{% endblock %}
+{% block body %}
+
+{% for article in listArticles %}
+  <h2>{{ article.title }}</h2>
+  <p>{{ article.content }}</p>
+{% endfor %}
+
+{% endblock %}

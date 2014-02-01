@@ -1,0 +1,22 @@
+admin_index:
+    pattern:  /
+    defaults: { _controller: CbnvMainBundle:Admin:index }
+admin_list:
+    pattern:  /{type}/
+    defaults: { _controller: "CbnvMainBundle:Admin:list" }
+admin_new:
+    pattern:  /{type}/new
+    defaults: { _controller: "CbnvMainBundle:Admin:new" }
+admin_create:
+    pattern:  /{type}/create
+    defaults: { _controller: "CbnvMainBundle:Admin:create" }
+admin_edit:
+    pattern:  /{type}/{id}/edit
+    defaults: { _controller: "CbnvMainBundle:Admin:edit" }
+admin_update:
+    pattern:  /{type}/{id}/update
+    defaults: { _controller: "CbnvMainBundle:Admin:update" }
+    requirements: { _method: post|put }
+admin_delete:
+    pattern:  /{type}/{id}/delete
+    defaults: { _controller: "CbnvMainBundle:Admin:delete" }

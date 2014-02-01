@@ -1,0 +1,17 @@
+{% if field.vars.name == '_token' %}
+	{{ form_row(field) }}
+{% elseif field.vars.name == 'submit' %}
+	<div class="form-group">
+	    <div class="col-sm-2"></div>
+	    <div class="col-sm-2">
+	        {{ form_widget(field, { 'attr': { 'class': 'form-control' }}) }}
+	    </div>
+	</div>
+{% else %}
+	<div class="form-group">
+	    {{ form_label(field, label|default(null), { 'label_attr': { 'class': 'col-sm-2 control-label' } }) }}
+	    <div class="col-sm-5">
+	        {{ form_widget(field, { 'attr': { 'class': 'form-control' }}) }}
+	    </div>
+	</div>
+{% endif %}

@@ -1,0 +1,19 @@
+cbnv_main_homepage:
+    pattern:  /
+    defaults: { _controller: CbnvMainBundle:Default:displayAllArticle }
+cbnv_main_homepage_page:
+    pattern:  /{page}
+    defaults: { _controller: CbnvMainBundle:Default:displayAllArticle }
+    requirements:
+        page: \d+
+login:
+    pattern:  /login
+    defaults: { _controller: CbnvMainBundle:Admin:login }
+login_check:
+    pattern:  /login/check
+logout:
+    pattern:  /logout
+admin:
+    resource: "@CbnvMainBundle/Resources/config/routing/admin.yml"
+    prefix:   /admin
+
