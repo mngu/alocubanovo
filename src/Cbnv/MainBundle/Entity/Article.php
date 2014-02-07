@@ -123,7 +123,7 @@ class Article
      */
     public function getDate()
     {
-        return $this->date->format('Y-m-d H:i:s');
+        return $this->date;
     }
 
     /**

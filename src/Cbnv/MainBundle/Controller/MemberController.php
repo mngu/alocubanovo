@@ -22,13 +22,21 @@ class MemberController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('CbnvMainBundle:Member');
+        $entities = $repository->findAll();
+        $fields = $repository::getFields();
+        $newLink = $this->generateUrl('member_new');
 
-        $entities = $em->getRepository('CbnvMainBundle:Member')->findAll();
-
-        return $this->render('CbnvMainBundle:Member:index.html.twig', array(
-            'entities' => $entities,
+        return $this->render('CbnvMainBundle:Admin:form_list.html.twig', array(
+            'type'          => 'member',
+            'edit_path'     => 'member_edit',
+            'delete_path'   => 'member_delete',
+            'entities'      => $entities,
+            'fields'        => $fields,
+            'new_link'      => $newLink
         ));
     }
+
     /**
      * Creates a new Member entity.
      *
@@ -44,10 +52,10 @@ class MemberController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('member_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('member_list'));
         }
 
-        return $this->render('CbnvMainBundle:Member:new.html.twig', array(
+        return $this->render('CbnvMainBundle:Admin:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
@@ -81,31 +89,12 @@ class MemberController extends Controller
         $entity = new Member();
         $form   = $this->createCreateForm($entity);
 
-        return $this->render('CbnvMainBundle:Member:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+        return $this->render('CbnvMainBundle:Admin:form_new.html.twig', array(
+            'entity'        => $entity,
+            'title'         => 'member',
+            'return_path'   => $this->generateUrl('member_list'),
+            'form'          => $form->createView()
         ));
-    }
-
-    /**
-     * Finds and displays a Member entity.
-     *
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('CbnvMainBundle:Member')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Member entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('CbnvMainBundle:Member:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        ));
     }
 
     /**
@@ -115,7 +104,6 @@ class MemberController extends Controller
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('CbnvMainBundle:Member')->find($id);
 
         if (!$entity) {
@@ -123,10 +111,9 @@ class MemberController extends Controller
         }
 
         $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
         return $this->render('CbnvMainBundle:Admin:form_edit.html.twig', array(
             'title'       => 'Member edit',
-            'return_path' => 'member',
+            'return_path' => $this->generateUrl('member_list'),
             'edit_form'   => $editForm->createView()
         ));
     }
@@ -149,6 +136,7 @@ class MemberController extends Controller
 
         return $form;
     }
+
     /**
      * Edits an existing Member entity.
      *
@@ -163,7 +151,6 @@ class MemberController extends Controller
             throw $this->createNotFoundException('Unable to find Member entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
@@ -173,50 +160,28 @@ class MemberController extends Controller
             return $this->redirect($this->generateUrl('member_edit', array('id' => $id)));
         }
 
-        return $this->render('CbnvMainBundle:Member:edit.html.twig', array(
+        return $this->render('CbnvMainBundle:Admin:form_edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         ));
     }
+
     /**
      * Deletes a Member entity.
      *
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('CbnvMainBundle:Member')->find($id);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('CbnvMainBundle:Member')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Member entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Member entity.');
         }
 
-        return $this->redirect($this->generateUrl('member'));
-    }
+        $em->remove($entity);
+        $em->flush();
 
-    /**
-     * Creates a form to delete a Member entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('member_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
+        return $this->redirect($this->generateUrl('member_list'));
     }
 }

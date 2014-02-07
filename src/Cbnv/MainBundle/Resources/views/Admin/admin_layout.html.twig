@@ -1,0 +1,9 @@
+{% extends '::layout.html.twig' %}
+
+{% block body -%}
+	{{ render(controller("CbnvMainBundle:Admin:menu")) }}	
+    
+    {% block adminContent %}
+    	Bienvenue dans l'administration.
+    {% endblock %}
+{% endblock -%}

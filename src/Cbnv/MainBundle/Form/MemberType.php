@@ -36,6 +36,6 @@ class MemberType extends AbstractType
      */
     public function getName()
     {
-        return 'cbnv_mainbundle_member';
+        return 'member';
     }
 }

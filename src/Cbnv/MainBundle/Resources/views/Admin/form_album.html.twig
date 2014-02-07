@@ -1,0 +1,32 @@
+{% extends 'CbnvMainBundle:Admin:admin_layout.html.twig' %}
+
+{% block adminContent -%}
+    <h1>{{ title }}</h1>
+    <a href="{{ return_path }}">
+        Back to the list
+    </a>
+    {{ form_start(form, {'attr': {'class': 'form-horizontal', 'enctype': 'multipart/form-data'}}) }}
+        {{ form_errors(form) }}
+        {% include 'CbnvMainBundle:Admin:form_row.html.twig' with {'field': form.title} %}
+        {% include 'CbnvMainBundle:Admin:form_row.html.twig' with {'field': form.description} %}
+        <div class="form-group">
+            <label for="photo_upload" class="col-sm-2 control-label">Photos</label>
+            <div class="col-sm-2">
+                <input id="photo_upload" name="photos[]" class="btn btn-success" type="file" multiple="multiple" value="Charger" />
+            </div> 
+        </div>
+         <div class="form-group">
+            <div class="col-sm-4">
+                {% for photo in photos %}
+                    <img src="{{ asset(photo.webPath) }}" alt="{{ photo.alt }}" />
+                {% endfor %}
+            </div> 
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-2">
+                {{ form_widget(form.submit, { 'attr': { 'class': 'form-control' }}) }}
+            </div>
+        </div>
+    {{ form_end(form) }}
+{% endblock %}

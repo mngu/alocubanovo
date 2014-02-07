@@ -35,6 +35,6 @@ class AlbumType extends AbstractType
      */
     public function getName()
     {
-        return 'cbnv_mainbundle_album';
+        return 'album';
     }
 }

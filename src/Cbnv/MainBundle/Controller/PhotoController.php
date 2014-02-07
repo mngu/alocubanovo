@@ -22,13 +22,21 @@ class PhotoController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('CbnvMainBundle:Photo');
+        $entities = $repository->findAll();
+        $fields = $repository::getFields();
+        $newLink = $this->generateUrl('photo_new');
 
-        $entities = $em->getRepository('CbnvMainBundle:Photo')->findAll();
-
-        return $this->render('CbnvMainBundle:Photo:index.html.twig', array(
-            'entities' => $entities,
+        return $this->render('CbnvMainBundle:Admin:form_list.html.twig', array(
+            'type'          => 'photo',
+            'edit_path'     => 'photo_edit',
+            'delete_path'   => 'photo_delete',
+            'entities'      => $entities,
+            'fields'        => $fields,
+            'new_link'      => $newLink
         ));
     }
+
     /**
      * Creates a new Photo entity.
      *
@@ -44,12 +52,14 @@ class PhotoController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('photo_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('photo_list'));
         }
 
-        return $this->render('CbnvMainBundle:Photo:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+        return $this->render('CbnvMainBundle:Admin:form_photo.html.twig', array(
+            'entity'        => $entity,
+            'title'         => 'photo',
+            'return_path'   => $this->generateUrl('photo_list'),
+            'form'          => $form->createView(),
         ));
     }
 
@@ -81,31 +91,12 @@ class PhotoController extends Controller
         $entity = new Photo();
         $form   = $this->createCreateForm($entity);
 
-        return $this->render('CbnvMainBundle:Photo:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+        return $this->render('CbnvMainBundle:Admin:form_photo.html.twig', array(
+            'entity'        => $entity,
+            'title'         => 'photo',
+            'return_path'   => $this->generateUrl('photo_list'),
+            'form'          => $form->createView()
         ));
-    }
-
-    /**
-     * Finds and displays a Photo entity.
-     *
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('CbnvMainBundle:Photo')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Photo entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('CbnvMainBundle:Photo:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        ));
     }
 
     /**
@@ -115,7 +106,6 @@ class PhotoController extends Controller
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('CbnvMainBundle:Photo')->find($id);
 
         if (!$entity) {
@@ -123,12 +113,11 @@ class PhotoController extends Controller
         }
 
         $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('CbnvMainBundle:Photo:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+        return $this->render('CbnvMainBundle:Admin:form_photo.html.twig', array(
+            'entity'        => $entity,
+            'title'         => 'Photo edit',
+            'return_path'   => $this->generateUrl('photo_list'),
+            'form'          => $editForm->createView()
         ));
     }
 
@@ -150,6 +139,7 @@ class PhotoController extends Controller
 
         return $form;
     }
+
     /**
      * Edits an existing Photo entity.
      *
@@ -164,7 +154,6 @@ class PhotoController extends Controller
             throw $this->createNotFoundException('Unable to find Photo entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
@@ -174,50 +163,28 @@ class PhotoController extends Controller
             return $this->redirect($this->generateUrl('photo_edit', array('id' => $id)));
         }
 
-        return $this->render('CbnvMainBundle:Photo:edit.html.twig', array(
+        return $this->render('CbnvMainBundle:Admin:form_edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         ));
     }
+
     /**
      * Deletes a Photo entity.
      *
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('CbnvMainBundle:Photo')->find($id);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('CbnvMainBundle:Photo')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Photo entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Photo entity.');
         }
 
-        return $this->redirect($this->generateUrl('photo'));
-    }
+        $em->remove($entity);
+        $em->flush();
 
-    /**
-     * Creates a form to delete a Photo entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('photo_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
+        return $this->redirect($this->generateUrl('photo_list'));
     }
 }

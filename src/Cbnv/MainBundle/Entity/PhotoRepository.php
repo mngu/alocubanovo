@@ -12,4 +12,15 @@ use Doctrine\ORM\EntityRepository;
  */
 class PhotoRepository extends EntityRepository
 {
+	/**
+	* Get entity field names
+	*
+	* @return array 
+	*/
+    public static function getFields() {
+        return array(
+            'alt' => 'Nom',
+            'date' => 'Date'
+        );
+    }
 }

@@ -15,13 +15,13 @@ class PhotoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('path')
-            ->add('date')
+            ->add('file', 'file')
             ->add('album', 'entity', array(
-                'label' => 'Album Title',
+                'label' => 'Album',
                 'class' => 'CbnvMainBundle:Album',
                 'property' => 'title')
             )
+
         ;
     }
     
@@ -40,6 +40,6 @@ class PhotoType extends AbstractType
      */
     public function getName()
     {
-        return 'cbnv_mainbundle_photo';
+        return 'photo';
     }
 }

@@ -22,13 +22,21 @@ class ArticleController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('CbnvMainBundle:Article');
+        $entities = $repository->findAll();
+        $fields = $repository::getFields();
+        $newLink = $this->generateUrl('article_new');
 
-        $entities = $em->getRepository('CbnvMainBundle:Article')->findAll();
-
-        return $this->render('CbnvMainBundle:Article:index.html.twig', array(
-            'entities' => $entities,
+        return $this->render('CbnvMainBundle:Admin:form_list.html.twig', array(
+            'type'          => 'article',
+            'edit_path'     => 'article_edit',
+            'delete_path'   => 'article_delete',
+            'entities'      => $entities,
+            'fields'        => $fields,
+            'new_link'      => $newLink
         ));
     }
+
     /**
      * Creates a new Article entity.
      *
@@ -44,10 +52,10 @@ class ArticleController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('article_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('article_list'));
         }
 
-        return $this->render('CbnvMainBundle:Article:new.html.twig', array(
+        return $this->render('CbnvMainBundle:Admin:form_new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
@@ -81,31 +89,12 @@ class ArticleController extends Controller
         $entity = new Article();
         $form   = $this->createCreateForm($entity);
 
-        return $this->render('CbnvMainBundle:Article:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+        return $this->render('CbnvMainBundle:Admin:form_new.html.twig', array(
+            'entity'        => $entity,
+            'title'         => 'article',
+            'return_path'   => $this->generateUrl('article_list'),
+            'form'          => $form->createView()
         ));
-    }
-
-    /**
-     * Finds and displays a Article entity.
-     *
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('CbnvMainBundle:Article')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Article entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('CbnvMainBundle:Article:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        ));
     }
 
     /**
@@ -122,10 +111,9 @@ class ArticleController extends Controller
         }
 
         $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
         return $this->render('CbnvMainBundle:Admin:form_edit.html.twig', array(
             'title'       => 'Article edit',
-            'return_path' => 'article',
+            'return_path' => $this->generateUrl('article_list'),
             'edit_form'   => $editForm->createView()
         ));
     }
@@ -148,6 +136,7 @@ class ArticleController extends Controller
 
         return $form;
     }
+
     /**
      * Edits an existing Article entity.
      *
@@ -162,7 +151,6 @@ class ArticleController extends Controller
             throw $this->createNotFoundException('Unable to find Article entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
@@ -172,50 +160,28 @@ class ArticleController extends Controller
             return $this->redirect($this->generateUrl('article_edit', array('id' => $id)));
         }
 
-        return $this->render('CbnvMainBundle:Article:edit.html.twig', array(
+        return $this->render('CbnvMainBundle:Admin:form_edit.html.twig', array(
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
         ));
     }
+
     /**
      * Deletes a Article entity.
      *
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('CbnvMainBundle:Article')->find($id);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('CbnvMainBundle:Article')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Article entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Article entity.');
         }
 
-        return $this->redirect($this->generateUrl('article'));
-    }
+        $em->remove($entity);
+        $em->flush();
 
-    /**
-     * Creates a form to delete a Article entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('article_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
+        return $this->redirect($this->generateUrl('article_list'));
     }
 }

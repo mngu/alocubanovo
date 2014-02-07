@@ -4,6 +4,7 @@ namespace Cbnv\MainBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Cbnv\MainBundle\Form\AlbumType;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Album
@@ -12,6 +13,7 @@ use Cbnv\MainBundle\Form\AlbumType;
  * @ORM\Entity(repositoryClass="Cbnv\MainBundle\Entity\AlbumRepository")
  */
 class Album {
+
     /**
      * @var integer
      *
@@ -35,6 +37,14 @@ class Album {
      */
     private $description;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Photo", mappedBy="album", cascade={"remove", "persist"})
+     */
+    protected $photos;
+
+    public function __construct() {
+        $this->photos = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -97,5 +107,51 @@ class Album {
     public function getForm()
     {
         return new AlbumType();
+    }
+
+
+    /**
+     * Add photos
+     *
+     * @param \Cbnv\MainBundle\Entity\Photo $photos
+     * @return Album
+     */
+    public function addPhoto(\Cbnv\MainBundle\Entity\Photo $photos)
+    {
+        $this->photos[] = $photos;
+
+        return $this;
+    }
+
+    /**
+     * Remove photos
+     *
+     * @param \Cbnv\MainBundle\Entity\Photo $photos
+     */
+    public function removePhoto(\Cbnv\MainBundle\Entity\Photo $photos)
+    {
+        $this->photos->removeElement($photos);
+    }
+
+    /**
+     * Get photos
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPhotos()
+    {
+        return $this->photos;
+    }
+
+    /**
+     * Set photos
+     *
+     * @param \Doctrine\Common\Collections\Collection $photos
+     */
+    public function setPhoto(\Doctrine\Common\Collections\Collection $photos)
+    {
+        $this->photos = $photos;
+
+        return $this;
     }
 }

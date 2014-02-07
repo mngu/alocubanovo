@@ -35,6 +35,6 @@ class ArticleType extends AbstractType
      */
     public function getName()
     {
-        return 'cbnv_mainbundle_article';
+        return 'article';
     }
 }

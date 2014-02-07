@@ -1,6 +1,6 @@
-{% extends '::layout.html.twig' %}
+{% extends 'CbnvMainBundle:Admin:admin_layout.html.twig' %}
 
-{% block body -%}
+{% block adminContent -%}
     <h1>{{ type|capitalize }} list</h1>
     <table class="table table-striped">
         <thead>
@@ -15,28 +15,19 @@
         {% for entity in entities %}
             <tr>
                 {% for field in fields|keys %}
-                    <td>{{ attribute(entity, field) }}</td>
+                    {% if field == 'date' %}
+                        <td>{{ attribute(entity, field)|date('Y-m-d H:i:s') }}</td>
+                    {% else %}
+                        <td>{{ attribute(entity, field) }}</td>
+                    {% endif %}
                 {% endfor %}
                 <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('admin_edit', { 'type': type, 'id': entity.id }) }}">edit</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('admin_delete', { 'type': type, 'id': entity.id }) }}">delete</a>
-                    </li>
-                </ul>
+                    <a class="btn btn-xs btn-primary" href="{{ path(edit_path, { 'id': entity.id }) }}">edit</a>
+                    <a class="btn btn-xs btn-success" href="{{ path(delete_path, { 'id': entity.id }) }}">delete</a>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <ul>
-        <li>
-            <a href="{{ new_link }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
-    {% endblock %}
+    <a class="btn btn-danger" href="{{ new_link }}">Create a new entry</a>
+{% endblock %}

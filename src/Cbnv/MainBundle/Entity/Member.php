@@ -125,7 +125,7 @@ class Member
     /**
      * Get form
      *
-     * @return \ArticleType 
+     * @return \MemberType 
      */
     public function getForm()
     {

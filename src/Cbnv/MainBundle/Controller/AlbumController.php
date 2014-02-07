@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use Cbnv\MainBundle\Entity\Album;
 use Cbnv\MainBundle\Form\AlbumType;
+use Cbnv\MainBundle\Entity\Photo;
 
 /**
  * Album controller.
@@ -14,7 +15,6 @@ use Cbnv\MainBundle\Form\AlbumType;
  */
 class AlbumController extends Controller
 {
-
     /**
      * Lists all Album entities.
      *
@@ -22,13 +22,21 @@ class AlbumController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('CbnvMainBundle:Album');
+        $entities = $repository->findAll();
+        $fields = $repository::getFields();
+        $newLink = $this->generateUrl('album_new');
 
-        $entities = $em->getRepository('CbnvMainBundle:Album')->findAll();
-
-        return $this->render('CbnvMainBundle:Album:index.html.twig', array(
-            'entities' => $entities,
+        return $this->render('CbnvMainBundle:Admin:form_list.html.twig', array(
+            'type'          => 'album',
+            'edit_path'     => 'album_edit',
+            'delete_path'   => 'album_delete',
+            'entities'      => $entities,
+            'fields'        => $fields,
+            'new_link'      => $newLink
         ));
     }
+
     /**
      * Creates a new Album entity.
      *
@@ -38,16 +46,23 @@ class AlbumController extends Controller
         $entity = new Album();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
-
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
+            $photos = $request->files->all();
+            foreach($photos['photos'] as $photo) {
+                $newPhoto = new Photo();
+                $newPhoto->setFile($photo);
+                $newPhoto->setAlbum($entity);
+                $em->persist($newPhoto);
+                unset($newPhoto);
+            }
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('album_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('album_list'));
         }
 
-        return $this->render('CbnvMainBundle:Album:new.html.twig', array(
+        return $this->render('CbnvMainBundle:Admin:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
@@ -81,31 +96,12 @@ class AlbumController extends Controller
         $entity = new Album();
         $form   = $this->createCreateForm($entity);
 
-        return $this->render('CbnvMainBundle:Album:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
+        return $this->render('CbnvMainBundle:Admin:form_album.html.twig', array(
+            'entity'        => $entity,
+            'title'         => 'album',
+            'return_path'   => $this->generateUrl('album_list'),
+            'form'          => $form->createView()
         ));
-    }
-
-    /**
-     * Finds and displays a Album entity.
-     *
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('CbnvMainBundle:Album')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Album entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('CbnvMainBundle:Album:show.html.twig', array(
-            'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),        ));
     }
 
     /**
@@ -115,20 +111,18 @@ class AlbumController extends Controller
     public function editAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('CbnvMainBundle:Album')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Album entity.');
         }
-
+        $photos = $em->getRepository('CbnvMainBundle:Photo')->findBy(array('album' => $entity));
         $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('CbnvMainBundle:Album:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+        return $this->render('CbnvMainBundle:Admin:form_album.html.twig', array(
+            'title'         => 'Album edit',
+            'return_path'   => $this->generateUrl('album_list'),
+            'photos'        => $photos,
+            'form'          => $editForm->createView()
         ));
     }
 
@@ -150,6 +144,7 @@ class AlbumController extends Controller
 
         return $form;
     }
+
     /**
      * Edits an existing Album entity.
      *
@@ -157,67 +152,50 @@ class AlbumController extends Controller
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
-
         $entity = $em->getRepository('CbnvMainBundle:Album')->find($id);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Album entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            $photos = $request->files->all();
+            foreach($photos['photos'] as $photo) {
+                $newPhoto = new Photo();
+                $newPhoto->setFile($photo);
+                $newPhoto->setAlbum($entity);
+                $em->persist($newPhoto);
+                unset($newPhoto);
+            }
             $em->flush();
-
             return $this->redirect($this->generateUrl('album_edit', array('id' => $id)));
         }
 
-        return $this->render('CbnvMainBundle:Album:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+        return $this->render('CbnvMainBundle:Admin:form_album.html.twig', array(
+            'entity' => $entity,
+            'form'   => $editForm->createView(),
         ));
     }
+
     /**
      * Deletes a Album entity.
      *
      */
-    public function deleteAction(Request $request, $id)
+    public function deleteAction($id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('CbnvMainBundle:Album')->find($id);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('CbnvMainBundle:Album')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Album entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Album entity.');
         }
 
-        return $this->redirect($this->generateUrl('album'));
-    }
+        $em->remove($entity);
+        $em->flush();
 
-    /**
-     * Creates a form to delete a Album entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('album_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
+        return $this->redirect($this->generateUrl('album_list'));
     }
 }

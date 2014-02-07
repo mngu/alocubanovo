@@ -1,22 +1,83 @@
 admin_index:
     pattern:  /
     defaults: { _controller: CbnvMainBundle:Admin:index }
-admin_list:
-    pattern:  /{type}/
-    defaults: { _controller: "CbnvMainBundle:Admin:list" }
-admin_new:
-    pattern:  /{type}/new
-    defaults: { _controller: "CbnvMainBundle:Admin:new" }
-admin_create:
-    pattern:  /{type}/create
-    defaults: { _controller: "CbnvMainBundle:Admin:create" }
-admin_edit:
-    pattern:  /{type}/{id}/edit
-    defaults: { _controller: "CbnvMainBundle:Admin:edit" }
-admin_update:
-    pattern:  /{type}/{id}/update
-    defaults: { _controller: "CbnvMainBundle:Admin:update" }
+
+article_list:
+    pattern:  /article/
+    defaults: { _controller: "CbnvMainBundle:Article:index" }
+article_new:
+    pattern:  /article/new
+    defaults: { _controller: "CbnvMainBundle:Article:new" }
+article_create:
+    pattern:  /article/create
+    defaults: { _controller: "CbnvMainBundle:Article:create" }
+article_edit:
+    pattern:  /article/{id}/edit
+    defaults: { _controller: "CbnvMainBundle:Article:edit" }
+article_update:
+    pattern:  /article/{id}/update
+    defaults: { _controller: "CbnvMainBundle:Article:update" }
     requirements: { _method: post|put }
-admin_delete:
-    pattern:  /{type}/{id}/delete
-    defaults: { _controller: "CbnvMainBundle:Admin:delete" }
+article_delete:
+    pattern:  /article/{id}/delete
+    defaults: { _controller: "CbnvMainBundle:Article:delete" }
+
+member_list:
+    pattern:  /member/
+    defaults: { _controller: "CbnvMainBundle:Member:index" }
+member_new:
+    pattern:  /member/new
+    defaults: { _controller: "CbnvMainBundle:Member:new" }
+member_create:
+    pattern:  /member/create
+    defaults: { _controller: "CbnvMainBundle:Member:create" }
+member_edit:
+    pattern:  /member/{id}/edit
+    defaults: { _controller: "CbnvMainBundle:Member:edit" }
+member_update:
+    pattern:  /member/{id}/update
+    defaults: { _controller: "CbnvMainBundle:Member:update" }
+    requirements: { _method: post|put }
+member_delete:
+    pattern:  /member/{id}/delete
+    defaults: { _controller: "CbnvMainBundle:Member:delete" }
+
+album_list:
+    pattern:  /album/
+    defaults: { _controller: "CbnvMainBundle:Album:index" }
+album_new:
+    pattern:  /album/new
+    defaults: { _controller: "CbnvMainBundle:Album:new" }
+album_create:
+    pattern:  /album/create
+    defaults: { _controller: "CbnvMainBundle:Album:create" }
+album_edit:
+    pattern:  /album/{id}/edit
+    defaults: { _controller: "CbnvMainBundle:Album:edit" }
+album_update:
+    pattern:  /album/{id}/update
+    defaults: { _controller: "CbnvMainBundle:Album:update" }
+    requirements: { _method: post|put }
+album_delete:
+    pattern:  /album/{id}/delete
+    defaults: { _controller: "CbnvMainBundle:Album:delete" }
+
+photo_list:
+    pattern:  /photo/
+    defaults: { _controller: "CbnvMainBundle:Photo:index" }
+photo_new:
+    pattern:  /photo/new
+    defaults: { _controller: "CbnvMainBundle:Photo:new" }
+photo_create:
+    pattern:  /photo/create
+    defaults: { _controller: "CbnvMainBundle:Photo:create" }
+photo_edit:
+    pattern:  /photo/{id}/edit
+    defaults: { _controller: "CbnvMainBundle:Photo:edit" }
+photo_update:
+    pattern:  /photo/{id}/update
+    defaults: { _controller: "CbnvMainBundle:Photo:update" }
+    requirements: { _method: post|put }
+photo_delete:
+    pattern:  /photo/{id}/delete
+    defaults: { _controller: "CbnvMainBundle:Photo:delete" }
