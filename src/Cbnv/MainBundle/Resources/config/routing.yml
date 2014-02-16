@@ -1,11 +1,15 @@
-cbnv_main_homepage:
+homepage:
     pattern:  /
     defaults: { _controller: CbnvMainBundle:Default:displayAllArticle }
-cbnv_main_homepage_page:
-    pattern:  /{page}
+homepage_page:
+    pattern:  /page/{page}
     defaults: { _controller: CbnvMainBundle:Default:displayAllArticle }
     requirements:
         page: \d+
+article:
+    pattern:  /article/{slug}
+    defaults: { _controller: CbnvMainBundle:Default:displayArticle }
+
 login:
     pattern:  /login
     defaults: { _controller: CbnvMainBundle:Admin:login }

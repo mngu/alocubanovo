@@ -17,6 +17,15 @@ use Symfony\Component\Debug\Debug;
     exit('You are not allowed to access this file. Check '.basename(__FILE__).' for more information.');
 }*/
 
+function dtc($data) {
+    if(is_array($data) || is_object($data))
+    {
+        echo("<script>console.log('PHP: ".json_encode($data)."');</script>");
+    } else {
+        echo("<script>console.log('PHP: ".$data."');</script>");
+    }
+}
+
 $loader = require_once __DIR__.'/../app/bootstrap.php.cache';
 Debug::enable();
 

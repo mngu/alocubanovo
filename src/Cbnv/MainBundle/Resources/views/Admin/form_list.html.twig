@@ -23,11 +23,11 @@
                 {% endfor %}
                 <td>
                     <a class="btn btn-xs btn-primary" href="{{ path(edit_path, { 'id': entity.id }) }}">edit</a>
-                    <a class="btn btn-xs btn-success" href="{{ path(delete_path, { 'id': entity.id }) }}">delete</a>
+                    <a class="btn btn-xs btn-danger" href="{{ path(delete_path, { 'id': entity.id }) }}">delete</a>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-    <a class="btn btn-danger" href="{{ new_link }}">Create a new entry</a>
+    <a class="btn btn-success" href="{{ new_link }}">Create a new entry</a>
 {% endblock %}

@@ -20,8 +20,8 @@ class MemberRepository extends EntityRepository
     public static function getFields() {
         return array(
             'firstName' => 'Prénom',
-            'lastName' => 'Nom',
-            'email' => 'Email'
+            'lastName'  => 'Nom',
+            'email'     => 'Email'
         );
     }
 }

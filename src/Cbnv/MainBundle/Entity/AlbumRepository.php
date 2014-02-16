@@ -19,8 +19,8 @@ class AlbumRepository extends EntityRepository
 	*/
     public static function getFields() {
         return array(
-            'title' => 'Titre',
-            'description' => 'Description'
+            'title'         => 'Titre',
+            'description'   => 'Description'
         );
     }
 }

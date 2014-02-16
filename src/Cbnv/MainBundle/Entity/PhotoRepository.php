@@ -19,8 +19,9 @@ class PhotoRepository extends EntityRepository
 	*/
     public static function getFields() {
         return array(
-            'alt' => 'Nom',
-            'date' => 'Date'
+            'name'   => 'Nom',
+            'date'  => 'Date',
+            'album' => 'Album'
         );
     }
 }

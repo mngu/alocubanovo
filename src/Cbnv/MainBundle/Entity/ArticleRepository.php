@@ -3,6 +3,7 @@
 namespace Cbnv\MainBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * ArticleRepository
@@ -19,9 +20,21 @@ class ArticleRepository extends EntityRepository
 	*/
     public static function getFields() {
         return array(
-            'title' => 'Titre',
-            'content' => 'Contenu',
-            'date' => 'Date'
+            'title'     => 'Titre',
+            'catchline' => 'Accroche',
+            'date'      => 'Date'
         );
+    }
+
+    public function getPaginator($page = 1, $nbrByPage = 5) {
+        $query = $this->_em->createQueryBuilder('a')
+            ->select('a')
+            ->from('CbnvMainBundle:Article', 'a')
+            ->orderBy('a.date', 'ASC')
+            ->getQuery();
+        $query->setFirstResult(($page-1) * $nbrByPage)
+            ->setMaxResults($nbrByPage);
+
+        return new Paginator($query);
     }
 }

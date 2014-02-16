@@ -1,3 +1,6 @@
 cbnv_main:
     resource: "@CbnvMainBundle/Resources/config/routing.yml"
     prefix:   /
+_imagine:
+    resource: .
+    type:     imagine

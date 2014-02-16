@@ -157,7 +157,7 @@ class ArticleController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('article_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('article_list'));
         }
 
         return $this->render('CbnvMainBundle:Admin:form_edit.html.twig', array(

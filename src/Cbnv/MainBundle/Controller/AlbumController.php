@@ -39,7 +39,6 @@ class AlbumController extends Controller
 
     /**
      * Creates a new Album entity.
-     *
      */
     public function createAction(Request $request)
     {
@@ -48,14 +47,7 @@ class AlbumController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $photos = $request->files->all();
-            foreach($photos['photos'] as $photo) {
-                $newPhoto = new Photo();
-                $newPhoto->setFile($photo);
-                $newPhoto->setAlbum($entity);
-                $em->persist($newPhoto);
-                unset($newPhoto);
-            }
+            $em = $this->addPhotos($em, $request, $entity);
             $em->persist($entity);
             $em->flush();
 
@@ -66,6 +58,23 @@ class AlbumController extends Controller
             'entity' => $entity,
             'form'   => $form->createView(),
         ));
+    }
+
+    /**
+     * Create photos form uploaded files
+     */
+    private function addPhotos($em, Request $request, Album $album) {
+        $photos = $request->files->all();
+        foreach($photos['photos'] as $photo) {
+            if ($photo != null) {
+                $newPhoto = new Photo();
+                $newPhoto->setFile($photo);
+                $newPhoto->setAlbum($album);
+                $em->persist($newPhoto);
+                unset($newPhoto);
+            }
+        }
+        return $em;
     }
 
     /**
@@ -162,14 +171,7 @@ class AlbumController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            $photos = $request->files->all();
-            foreach($photos['photos'] as $photo) {
-                $newPhoto = new Photo();
-                $newPhoto->setFile($photo);
-                $newPhoto->setAlbum($entity);
-                $em->persist($newPhoto);
-                unset($newPhoto);
-            }
+            $em = $this->addPhotos($em, $request, $entity);
             $em->flush();
             return $this->redirect($this->generateUrl('album_edit', array('id' => $id)));
         }

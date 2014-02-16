@@ -1,12 +1,17 @@
 {% extends "::layout.html.twig" %}
 {% block title %}
-  {{ parent() }} - Accueil
+	{{ parent() }} - Accueil
 {% endblock %}
 {% block body %}
-
-{% for article in listArticles %}
-  <h2>{{ article.title }}</h2>
-  <p>{{ article.content }}</p>
-{% endfor %}
-
+<ul>
+	{% for article in listArticles %}
+		<li>
+			<a href="{{ path('article', {'slug': article.slug}) }}">
+				<h2>{{ article.title }}</h2>
+				<p>{{ article.catchline }}</p>
+			</a>
+		</li>
+	{% endfor %}
+</ul>
+{% include 'CbnvMainBundle:Default:pagination.html.twig' %}
 {% endblock %}

@@ -67,3 +67,15 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+# Liip Imagine config
+liip_imagine:
+    filter_sets:
+        thumbnail:
+            quality: 75
+            filters:
+                thumbnail: { size: [200, 140], mode: outbound }
+        preview:
+            quality: 100
+            filters:
+                thumbnail: { size: [500, 300], mode: outbound }

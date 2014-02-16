@@ -1,10 +1,15 @@
 {% extends "::layout.html.twig" %}
+
 {% block title %}
-  {{ parent() }} - {{ article.title }}
+	{{ parent() }} - {{ article.title }}
 {% endblock %}
+
 {% block body %}
 
-  <h1>{{ article.title }}</h1>
-  <p>{{ article.content }}</p>
+	<h1>{{ article.title }}</h1>
+	<p class="catch">
+		{{ article.catchline }}
+	</p>
+	<div>{{ article.content|raw }}</div>
 
 {% endblock %}

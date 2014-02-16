@@ -7,18 +7,19 @@
     </a>
     {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
         {{ form_errors(form) }}
+        {% include 'CbnvMainBundle:Admin:form_row.html.twig' with {'field': form.name} %}
         {% if entity.id is empty %}
             <div class="form-group">
                 {{ form_label(form.file, label|default(null), { 'label_attr': { 'class': 'col-sm-2 control-label' } }) }}
                 <div class="col-sm-5">
-                    {{ form_widget(form.file) }}
+                    {{ form_widget(form.file,  { 'attr': { 'accept': 'image/*' }}) }}
                 </div> 
             </div>
         {% else %}
             <div class="form-group">
                 <div class="col-sm-2"></div>
-                <div class="col-sm-2">
-                    <img src="{{ asset(entity.webPath) }}" alt="{{ entity.alt }}" />
+                <div class="col-sm-7">
+                    <img src="{{ asset(entity.webPath) | imagine_filter('preview') }}" alt="{{ entity.name }}" />
                 </div>
             </div>
         {% endif %}
@@ -31,7 +32,7 @@
         <div class="form-group">
             <div class="col-sm-2"></div>
             <div class="col-sm-2">
-                {{ form_widget(form.submit, { 'attr': { 'class': 'form-control' }}) }}
+                {{ form_widget(form.submit, { 'attr': { 'class': 'btn btn-success' }}) }}
             </div>
         </div>
         {{ form_widget(form._token) }}

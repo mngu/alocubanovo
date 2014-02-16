@@ -46,6 +46,10 @@ class Album {
         $this->photos = new ArrayCollection();
     }
 
+    public function __toString() {
+        return $this->title;
+    }
+
     /**
      * Get id
      *
@@ -102,10 +106,9 @@ class Album {
     /**
      * Get form
      *
-     * @return \AlbumType 
+     * @return \AlbumType
      */
-    public function getForm()
-    {
+    public function getForm() {
         return new AlbumType();
     }
 
@@ -114,10 +117,10 @@ class Album {
      * Add photos
      *
      * @param \Cbnv\MainBundle\Entity\Photo $photos
+     *
      * @return Album
      */
-    public function addPhoto(\Cbnv\MainBundle\Entity\Photo $photos)
-    {
+    public function addPhoto(\Cbnv\MainBundle\Entity\Photo $photos) {
         $this->photos[] = $photos;
 
         return $this;
@@ -128,18 +131,16 @@ class Album {
      *
      * @param \Cbnv\MainBundle\Entity\Photo $photos
      */
-    public function removePhoto(\Cbnv\MainBundle\Entity\Photo $photos)
-    {
+    public function removePhoto(\Cbnv\MainBundle\Entity\Photo $photos) {
         $this->photos->removeElement($photos);
     }
 
     /**
      * Get photos
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getPhotos()
-    {
+    public function getPhotos() {
         return $this->photos;
     }
 
@@ -148,8 +149,7 @@ class Album {
      *
      * @param \Doctrine\Common\Collections\Collection $photos
      */
-    public function setPhoto(\Doctrine\Common\Collections\Collection $photos)
-    {
+    public function setPhoto(\Doctrine\Common\Collections\Collection $photos) {
         $this->photos = $photos;
 
         return $this;

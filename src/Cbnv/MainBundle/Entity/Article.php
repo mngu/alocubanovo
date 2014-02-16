@@ -10,6 +10,7 @@ use Cbnv\MainBundle\Form\ArticleType;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Cbnv\MainBundle\Entity\ArticleRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Article
 {
@@ -28,6 +29,20 @@ class Article
      * @ORM\Column(name="title", type="string", length=255)
      */
     private $title;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="slug", type="string", length=255)
+     */
+    private $slug;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="catchline", type="text")
+     */
+    private $catchline;
 
     /**
      * @var string
@@ -78,6 +93,52 @@ class Article
     public function getTitle()
     {
         return $this->title;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return Article
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Set catchline
+     *
+     * @param string $content
+     * @return Article
+     */
+    public function setCatchline($catchline)
+    {
+        $this->catchline = $catchline;
+
+        return $this;
+    }
+
+    /**
+     * Get catchline
+     *
+     * @return string 
+     */
+    public function getCatchline()
+    {
+        return $this->catchline;
     }
 
     /**
@@ -134,5 +195,19 @@ class Article
     public function getForm()
     {
         return new ArticleType();
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function preSave()
+    {
+        $search = array('Ș', 'Ț', 'ş', 'ţ', 'Ş', 'Ţ', 'ș', 'ț', 'î', 'â', 'ă', 'à', 'é', 'è', 'Î', 'Â', 'Ă', 'ë', 'Ë');
+        $replace = array('s', 't', 's', 't', 's', 't', 's', 't', 'i', 'a', 'a', 'a', 'e', 'e', 'i', 'a', 'a', 'e', 'E');
+        $str = str_ireplace($search, $replace, strtolower(trim($this->title)));
+        $str = preg_replace('/[^\w\d\-\ ]/', '', $str);
+        $str = str_replace(' ', '-', $str);
+        $this->slug = preg_replace('/\-{2,}/', '-', $str);
     }
 }

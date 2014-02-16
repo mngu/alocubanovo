@@ -1,48 +1,74 @@
 @font-face {
-    font-family: 'gooddogregular';
-    src: url('../fonts/gooddog-webfont.eot');
-    src: url('../fonts/gooddog-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/gooddog-webfont.woff') format('woff'),
-         url('../fonts/gooddog-webfont.ttf') format('truetype'),
-         url('../fonts/gooddog-webfont.svg#gooddogregular') format('svg');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'gooddogregular';
+  src: url('../fonts/gooddog-webfont.eot');
+  src: url('../fonts/gooddog-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/gooddog-webfont.woff') format('woff'), url('../fonts/gooddog-webfont.ttf') format('truetype'), url('../fonts/gooddog-webfont.svg#gooddogregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: 'existencelight';
-    src: url('../fonts/existence-light-webfont.eot');
-    src: url('../fonts/existence-light-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/existence-light-webfont.woff') format('woff'),
-         url('../fonts/existence-light-webfont.ttf') format('truetype'),
-         url('../fonts/existence-light-webfont.svg#existencelight') format('svg');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'existencelight';
+  src: url('../fonts/existence-light-webfont.eot');
+  src: url('../fonts/existence-light-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/existence-light-webfont.woff') format('woff'), url('../fonts/existence-light-webfont.ttf') format('truetype'), url('../fonts/existence-light-webfont.svg#existencelight') format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
 
 /* COLORS */
 $headBkg: #1d1d1d;
+$text: #3d3d3d;
+
+/* WYSIWYG style */
+.Bold {
+  font-weight: bold;
+}
+
+a {
+  &:hover {
+    text-decoration: none;
+  }
+  &:focus {
+    outline: none;
+  }
+}
 
 #header {
-	background-color: $headBkg;
-	h1 {
-		font-family: gooddogregular;
-		color: red;
-	}
+  background-color: $headBkg;
+  h1 {
+    font-family: gooddogregular;
+    color: red;
+  }
 }
+
 #footer {
-	background-color: $headBkg;
-	color: #ededed;
-	padding: 20px 0;
+  background-color: $headBkg;
+  color: #ededed;
+  padding: 20px 0;
 }
+
 #content {
-	.container {
-		background: url("../img/zumba.jpg") no-repeat 400px 0;
-		min-height: 500px;
-		padding-bottom: 40px;
-		h2 {
-			font-family: existencelight;
-			color: red;
-		}
-	}
+  .container {
+    min-height: 500px;
+    padding-bottom: 40px;
+    h2 {
+      font-family: existencelight;
+      color: red;
+    }
+    div.col-md-12 {
+      > ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        li {
+          p {
+            color: $text;
+          }
+        }
+      }
+      .catch {
+        font-size: 16px;
+        font-weight: bold;
+      }
+    }
+  }
 }
