@@ -1,0 +1,25 @@
+{% extends "::layout.html.twig" %}
+
+{% block title %}
+	{{ parent() }} - {{ album.title }}
+{% endblock %}
+
+{% block body %}
+	<h1>{{ album.title }}</h1>
+	<p>
+		{{ album.description }}
+	</p>
+	{% set photos = album.getPhotos %}
+	<ul id="galerie">
+		{% for photo in photos %}
+			<li>
+				<div class="col-xs-6 col-md-3">
+					<a class="thumbnail" href="#">
+						<img src="{{ photo.webPath | imagine_filter('gallery_thumb') }}" alt="{{ photo.name }}" />
+					</a>
+				</div>
+			</li>
+		{% endfor %}
+	</ul>
+
+{% endblock %}

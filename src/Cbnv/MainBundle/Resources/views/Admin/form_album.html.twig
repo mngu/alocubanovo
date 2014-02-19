@@ -20,7 +20,7 @@
             <div class="col-sm-7">
                 {% if photos is defined %}
                     {% for photo in photos %}
-                        <img src="{{ asset(photo.webPath) | imagine_filter('thumbnail') }}" alt="{{ photo.name }}" />
+                        <img src="{{ photo.webPath | imagine_filter('thumbnail') }}" alt="{{ photo.name }}" />
                     {% endfor %}
                 {% endif %}
             </div> 

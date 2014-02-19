@@ -15,6 +15,7 @@
 }
 
 /* COLORS */
+/* IMAGES */
 /* WYSIWYG style */
 .Bold {
   font-weight: bold;
@@ -28,17 +29,26 @@ a:focus {
 }
 
 #header {
-  background-color: #1d1d1d;
+  background-color: white;
 }
-#header h1 {
-  font-family: gooddogregular;
-  color: red;
+#header div.container {
+  position: relative;
 }
-
-#footer {
-  background-color: #1d1d1d;
-  color: #ededed;
-  padding: 20px 0;
+#header div.container h1 {
+  font: 0/0 serif;
+  text-shadow: none;
+  color: transparent;
+  background: url('../img/alocubanovo.jpg?1392629086');
+  width: 130px;
+  height: 74px;
+  margin: 0;
+}
+#header div.container nav {
+  border: none;
+  background-color: transparent;
+}
+#header div.container nav #main-menu > ul {
+  margin-top: 17px;
 }
 
 #content .container {
@@ -47,12 +57,15 @@ a:focus {
 }
 #content .container h2 {
   font-family: existencelight;
-  color: red;
+  color: #3d3d3d;
 }
 #content .container div.col-md-12 > ul {
   list-style: none;
   margin: 0;
   padding: 0;
+}
+#content .container div.col-md-12 > ul li a {
+  display: block;
 }
 #content .container div.col-md-12 > ul li p {
   color: #3d3d3d;
@@ -60,4 +73,53 @@ a:focus {
 #content .container div.col-md-12 .catch {
   font-size: 16px;
   font-weight: bold;
+}
+
+#galeries .thumbnail .caption h3 {
+  margin: 0;
+  text-align: center;
+}
+
+#footer {
+  background-color: #2d2d2d;
+  color: #ededed;
+  padding: 20px 0;
+}
+#footer .row > div h3 {
+  margin-top: 0;
+}
+#footer .row > div:first-child {
+  border-right: 1px dashed #ededed;
+}
+#footer .row > div:nth-child(2) {
+  border-right: 1px dashed #ededed;
+}
+#footer .row > div:nth-child(2) h3 {
+  text-align: center;
+}
+#footer .row > div:nth-child(2) p {
+  text-align: justify;
+}
+#footer .row > div:last-child {
+  border-right: none;
+}
+#footer .row > div:last-child h3 {
+  text-align: right;
+}
+#footer .row > div:last-child p {
+  text-align: right;
+}
+#footer ul {
+  list-style: none;
+  padding: 0;
+}
+#footer ul li {
+  padding: 10px 0;
+  border-bottom: 1px dashed #ededed;
+}
+#footer ul li a {
+  color: #ededed;
+}
+#footer .copyright {
+  text-align: right;
 }

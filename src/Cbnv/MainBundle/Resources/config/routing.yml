@@ -10,6 +10,31 @@ article:
     pattern:  /article/{slug}
     defaults: { _controller: CbnvMainBundle:Default:displayArticle }
 
+cours:
+    pattern:  /cours
+    defaults: { _controller: CbnvMainBundle:Default:cours }
+cours_salsa:
+    pattern:  /cours/salsa
+    defaults: { _controller: CbnvMainBundle:Default:coursSalsa }
+cours_zumba:
+    pattern:  /cours/zumba
+    defaults: { _controller: CbnvMainBundle:Default:coursZumba }
+cours_stage:
+    pattern:  /cours/stage
+    defaults: { _controller: CbnvMainBundle:Default:coursStage }
+profs:
+    pattern:  /professeurs
+    defaults: { _controller: CbnvMainBundle:Default:professeurs }
+galeries:
+    pattern:  /galeries
+    defaults: { _controller: CbnvMainBundle:Default:galeries }
+galerie_display:
+    pattern:  /galerie/{slug}
+    defaults: { _controller: CbnvMainBundle:Default:galerieDisplay }
+infos:
+    pattern:  /infos
+    defaults: { _controller: CbnvMainBundle:Default:infos }
+
 login:
     pattern:  /login
     defaults: { _controller: CbnvMainBundle:Admin:login }

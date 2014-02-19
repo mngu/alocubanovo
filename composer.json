@@ -20,8 +20,9 @@
         "sensio/generator-bundle": "~2.3",
         "incenteev/composer-parameter-handler": "~2.0",
         "liip/imagine-bundle": "dev-master",
-        "behat/behat": "2.5.*@dev",
-        "behat/symfony2-extension": "1.1.x-dev"
+        "behat/behat": "2.5.*@stable",
+        "behat/mink-extension": "*",
+        "behat/mink-goutte-driver": "*"
     },
     "scripts": {
         "post-install-cmd": [

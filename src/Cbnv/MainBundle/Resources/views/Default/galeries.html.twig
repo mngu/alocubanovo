@@ -1,0 +1,25 @@
+{% extends "::layout.html.twig" %}
+
+{% block title %}
+	{{ parent() }} - Les galeries
+{% endblock %}
+
+{% block body %}
+	<h1>Les galeries</h1>
+	<ul id="galeries">
+		{% for album in albums %}
+			{% set photos = album.getPhotos %}
+			<li>
+				<div class="col-sm-6 col-md-4">
+					<a class="thumbnail" href="{{ path('galerie_display', {'slug': album.slug}) }}">
+						<img src="{{ photos.0.webPath | imagine_filter('gallery_thumb') }}" alt="{{ photos.0.name }}" />
+						<div class="caption">
+							<h3>{{ album.title }}</h3>
+						</div>
+					</a>
+				</div>
+			</li>
+		{% endfor %}
+	</ul>
+
+{% endblock %}

@@ -1,3 +1,8 @@
+@import "compass/css3/border-radius";
+@import "compass/css3/opacity";
+@import "compass/utilities/sprites";
+@import "compass/typography/text/replacement";
+
 @font-face {
   font-family: 'gooddogregular';
   src: url('../fonts/gooddog-webfont.eot');
@@ -5,6 +10,7 @@
   font-weight: normal;
   font-style: normal;
 }
+
 
 @font-face {
   font-family: 'existencelight';
@@ -15,8 +21,13 @@
 }
 
 /* COLORS */
-$headBkg: #1d1d1d;
+$headBkg: #ffffff;
+$footBkg: #2d2d2d;
+$footTxt: #ededed;
 $text: #3d3d3d;
+
+/* IMAGES */
+$logo: "alocubanovo.jpg";
 
 /* WYSIWYG style */
 .Bold {
@@ -34,16 +45,23 @@ a {
 
 #header {
   background-color: $headBkg;
-  h1 {
-    font-family: gooddogregular;
-    color: red;
+  div.container {
+    position: relative;
+    h1 {
+      @include squish-text;
+      background: image-url($logo);
+      width: image-width($logo);
+      height: image-height($logo);
+      margin: 0;
+    }
+    nav {
+      border: none;
+      background-color: transparent;
+      #main-menu > ul {
+        margin-top: 17px;
+      }
+    }
   }
-}
-
-#footer {
-  background-color: $headBkg;
-  color: #ededed;
-  padding: 20px 0;
 }
 
 #content {
@@ -52,7 +70,7 @@ a {
     padding-bottom: 40px;
     h2 {
       font-family: existencelight;
-      color: red;
+      color: $text;
     }
     div.col-md-12 {
       > ul {
@@ -60,6 +78,9 @@ a {
         margin: 0;
         padding: 0;
         li {
+          a {
+            display: block;
+          }
           p {
             color: $text;
           }
@@ -70,5 +91,64 @@ a {
         font-weight: bold;
       }
     }
+  }
+}
+
+#galeries {
+  .thumbnail {
+    .caption {
+      h3 {
+        margin: 0;
+        text-align: center;
+      }
+    }
+  }
+}
+
+#footer {
+  background-color: $footBkg;
+  color: $footTxt;
+  padding: 20px 0;
+  .row {
+    > div {
+      h3 {
+        margin-top: 0;
+      }
+      &:first-child {
+        border-right: 1px dashed $footTxt;
+      }
+      &:nth-child(2) {
+        border-right: 1px dashed $footTxt;
+        h3 {
+          text-align: center;
+        }
+        p {
+          text-align: justify;
+        }
+      }
+      &:last-child {
+        border-right: none;
+        h3 {
+          text-align: right;
+        }
+        p {
+          text-align: right;
+        }
+      }
+    }
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    li {
+      padding: 10px 0;
+      border-bottom: 1px dashed $footTxt;
+      a {
+        color: $footTxt;
+      }
+    }
+  }
+  .copyright {
+    text-align: right;
   }
 }

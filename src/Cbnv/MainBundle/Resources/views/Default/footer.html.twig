@@ -1,0 +1,49 @@
+<div class="row">
+  <div class="col-md-2">
+    <h3>Navigation</h3>
+    <ul>
+      {% for menu in menus %}
+        {% if menu.menus is defined %}
+          {% for sousMenu in menu.menus %}
+            <li><a href="{{ sousMenu.link }}">{{ sousMenu.name }}</a></li>
+          {% endfor %}
+        {% else %}
+          <li><a href="{{ menu.link }}">{{ menu.name }}</a></li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="col-md-8">
+    <h3>Alocubanovo</h3>
+    <p>
+      A travers cette association, à but non lucratif, nous souhaitons créer des liens entre les gens, 
+      en invitant les familles de tout milieu quelque soit leur moyen à nos cours de zumba et de salsa. 
+      Les familles monoparentales bénéficieront d’un accueil de leurs enfants par l'association "Le 
+      Moulin". Nous voulons aider les plus démunis à accéder à des loisirs la plupart du temps non 
+      accessible pour des raisons financières. Le mot clé de notre association est “solidarité”.
+    </p>
+    <p>
+      Située dans le 14 ème arrondissement de Paris, nous mettons en place des stages de 
+      diverses danses. Et nous avons quelques pistes pour vous proposer prochainement des 
+      rencontres à l’étranger ! En plus de nos activités, nous avons des contacts régulier avec 
+      d’autres associations pour vous proposer divers événements tels que des stages de danse non 
+      enseigné par A LO CUBA NOVO, des sorties, des voyages, et autres activités qui réuniront les 
+      membres afin de passer de bons moments dans un respect commun.
+    </p>
+    <p>
+      Nous voulons contribuer au travers de la danse à développer les liens entre groupes sociaux et 
+      à faciliter leurs relations.
+    </p>
+    <p style="text-align: right;">
+      © Alocubanovo 2014
+    </p>
+  </div>
+  <div class="col-md-2">
+    <h3>Adresse</h3>
+    <p>
+      Maison des associations<br/>
+      22, rue Deparcieux<br/>
+      75014 paris
+    </p>
+  </div>
+</div>

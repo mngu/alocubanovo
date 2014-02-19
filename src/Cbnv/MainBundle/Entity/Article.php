@@ -208,6 +208,6 @@ class Article
         $str = str_ireplace($search, $replace, strtolower(trim($this->title)));
         $str = preg_replace('/[^\w\d\-\ ]/', '', $str);
         $str = str_replace(' ', '-', $str);
-        $this->slug = preg_replace('/\-{2,}/', '-', $str);
+        $this->slug = trim(preg_replace('/\-{2,}/', '-', $str), '-');
     }
 }

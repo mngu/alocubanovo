@@ -12,9 +12,7 @@
     <section id="header">
       <div class="container">
         <div class="row">
-          <div class="col-md-12">
-            {{ render(controller("CbnvMainBundle:Default:displayLogo")) }}
-          </div>
+          {{ render(controller("CbnvMainBundle:Default:displayHeader", {'uri': app.request.requestUri})) }}
         </div>
       </div>
     </section>
@@ -30,17 +28,7 @@
     </section>
     <section id="footer">
       <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <h5>Alocubanovo</h5>
-            <p>
-              Le moulin à café<br/>
-              9, place de la Garenne<br/>
-              75014 Paris métro pernety<br/>
-              01.40.44.87.55
-            </p>
-          </div>
-        </div>
+        {{ render(controller("CbnvMainBundle:Default:displayFooter", {'uri': app.request.requestUri})) }}
       </div>
     </section>
     {% block javascripts %}
