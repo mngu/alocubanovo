@@ -7,12 +7,10 @@
 
     <!-- Prepare the environment with composer -->
     <target name="prepare" description="Installation des dépendances Composer">
-    	<exec command="cd jenkins/workspace/Alocubanovo" passthru="true" />
-    	<exec command="ls" passthru="true" />
         <echo msg="Mise à jour de Composer" />
-        <exec command="php composer.phar self-update" passthru="true" />
+        <exec command="php jenkins/workspace/Alocubanovo/composer.phar self-update" passthru="true" />
         <echo msg="Installation des dépendances" />
-        <exec command="php composer.phar update" passthru="true" />
+        <exec command="php jenkins/workspace/Alocubanovo/composer.phar update" passthru="true" />
     </target>
 
     <target name="qa" description="Lance les outils d'analyse">
