@@ -11,7 +11,7 @@
         <echo msg="Mise à jour de Composer" />
         <exec command="php composer.phar self-update" passthru="true" />
         <echo msg="Installation des dépendances" />
-        <exec command="php jenkins/workspace/Alocubanovo/composer.phar update" passthru="true" />
+        <exec command="php composer.phar update" passthru="true" />
     </target>
 
     <target name="qa" description="Lance les outils d'analyse">
