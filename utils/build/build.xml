@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="TestJenkins" default="ci" basedir="../../..">
+<project name="TestJenkins" default="ci" basedir="/var/lib/jenkins/workspace/Alocubanovo/">
     <property name="source" value="src" />
     <target name="ci" description="Tâche principale d'intégration continue" depends="prepare,qa">
     	<echo msg="En cours d'exécution ..." />
@@ -7,8 +7,9 @@
 
     <!-- Prepare the environment with composer -->
     <target name="prepare" description="Installation des dépendances Composer">
+    	<exec command="ls" passthru="true" />
         <echo msg="Mise à jour de Composer" />
-        <exec command="php jenkins/workspace/Alocubanovo/composer.phar self-update" passthru="true" />
+        <exec command="php composer.phar self-update" passthru="true" />
         <echo msg="Installation des dépendances" />
         <exec command="php jenkins/workspace/Alocubanovo/composer.phar update" passthru="true" />
     </target>
