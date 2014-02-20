@@ -7,6 +7,7 @@
 
     <!-- Prepare the environment with composer -->
     <target name="prepare" description="Installation des dépendances Composer">
+    	<exec command="ls" passthru="true" />
         <echo msg="Mise à jour de Composer" />
         <exec command="php composer.phar self-update" passthru="true" />
         <echo msg="Installation des dépendances" />
