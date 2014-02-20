@@ -5,5 +5,9 @@
     <target name="clean" description="Vide les répertoires d'artefacts">
     </target>
     <target name="qa" description="Lance les outils d'analyse">
+    	<phingcall target="behat" />
     </target>
 </project>
+<target name="behat" description="Lance les tests fonctionnels">
+
+</target>
