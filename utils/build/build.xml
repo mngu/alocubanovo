@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="TestJenkins" default="ci" basedir="../../..">
     <property name="source" value="src" />
-    <target name="ci" description="Tâche principale d'intégration continue" depends="clean,qa" />
-    <target name="clean" description="Vide les répertoires d'artefacts">
+    <target name="ci" description="Tâche principale d'intégration continue" depends="prepare,qa">
+    	<echo msg="En cours d'exécution ..." />
     </target>
+
+    <!-- Prepare the environment with composer -->
+    <target name="prepare" description="Installation des dépendances Composer">
+        <echo msg="Mise à jour de Composer" />
+        <exec command="php composer.phar self-update" passthru="true" />
+        <echo msg="Installation des dépendances" />
+        <exec command="php composer.phar update" passthru="true" />
+    </target>
+
     <target name="qa" description="Lance les outils d'analyse">
     	<phingcall target="behat" />
     </target>
     <target name="behat" description="Lance les tests fonctionnels">
-
+    	<echo msg="Tests Behat" />
+        <exec command="bin/behat" passthru="true" />
 	</target>
 </project>
